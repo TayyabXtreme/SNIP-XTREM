@@ -1,4 +1,7 @@
+
 import React, { useState } from 'react'
+import axios from 'axios'
+import { createShortUrl } from '../api/shortUrl.aip'
 
 const UrlForm = () => {
   const [url, setUrl] = useState('')
@@ -6,6 +9,8 @@ const UrlForm = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,20 +20,8 @@ const UrlForm = () => {
     setCopied(false)
     
     try {
-      const response = await fetch('http://localhost:3000/api/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url }),
-      })
-      
-      if (!response.ok) {
-        throw new Error('Failed to create short URL')
-      }
-      
-      const data = await response.text()
-      setShortUrl(data)
+      const responseUrl=await createShortUrl(url)
+      setShortUrl(responseUrl)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -36,6 +29,7 @@ const UrlForm = () => {
     }
   }
 
+  
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl)
     setCopied(true)
