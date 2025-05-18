@@ -1,16 +1,28 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
+
 dotenv.config('./.env');
 import connectDB from './config/mongo.config.js';
+import cors from 'cors'
 
 connectDB();
+
+
 import urlShortener from './models/shorturl.model.js';
 import shortUrlRoute from './routes/shortUrl.route.js';
 import { redirectFromShortUrl } from './controller/shorUrl.controller.js';
 import { errorHandler } from './utls/errorHandler.js';
 
 const app = express();
+
+app.use(cors(
+    {
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST'],
+        credentials: true,
+    }
+))
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
