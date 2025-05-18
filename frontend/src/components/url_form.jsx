@@ -5,12 +5,14 @@ const UrlForm = () => {
   const [shortUrl, setShortUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
     setShortUrl('')
+    setCopied(false)
     
     try {
       const response = await fetch('http://localhost:3000/api/create', {
@@ -32,6 +34,12 @@ const UrlForm = () => {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shortUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -78,13 +86,14 @@ const UrlForm = () => {
               className="flex-1 p-2 border border-gray-300 rounded-l-md bg-gray-50"
             />
             <button
-              onClick={() => {
-                navigator.clipboard.writeText(shortUrl);
-                alert('Copied to clipboard!');
-              }}
-              className="bg-gray-200 p-2 rounded-r-md hover:bg-gray-300"
+              onClick={handleCopy}
+              className={`p-2 rounded-r-md transition-colors duration-300 ${
+                copied 
+                  ? 'bg-green-500 text-white' 
+                  : 'bg-gray-200 hover:bg-gray-300'
+              }`}
             >
-              Copy
+              {copied ? 'Copied!' : 'Copy'}
             </button>
           </div>
         </div>
