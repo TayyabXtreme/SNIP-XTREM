@@ -13,6 +13,10 @@ import auth_Routes from './routes/auth.route.js';
 import shortUrlRoute from './routes/shortUrl.route.js';
 import { redirectFromShortUrl } from './controller/shorUrl.controller.js';
 import { errorHandler } from './utls/errorHandler.js';
+import { attachUser } from './utls/attachUser.js';
+import cookieParser from 'cookie-parser';
+
+
 
 const app = express();
 
@@ -24,9 +28,12 @@ app.use(cors(
     }
 ))
 
+app.use(cookieParser())
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use(attachUser)
 
 app.use('/api/auth',auth_Routes)
 app.use('/api/create',shortUrlRoute)
