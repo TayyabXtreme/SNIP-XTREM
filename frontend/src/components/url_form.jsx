@@ -21,7 +21,7 @@ const UrlForm = () => {
     
     try {
       const responseUrl=await createShortUrl(url)
-      setShortUrl(responseUrl)
+      setShortUrl(responseUrl.shortUrl)
     } catch (err) {
       setError(err.message)
     } finally {

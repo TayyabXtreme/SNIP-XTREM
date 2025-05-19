@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'http://localhost:3000',
+    withCredentials: true // This enables sending cookies with requests
 });
 
 // Request interceptor
