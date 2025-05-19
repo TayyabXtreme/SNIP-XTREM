@@ -9,7 +9,7 @@ import cors from 'cors'
 connectDB();
 
 
-import urlShortener from './models/shorturl.model.js';
+import auth_Routes from './routes/auth.route.js';
 import shortUrlRoute from './routes/shortUrl.route.js';
 import { redirectFromShortUrl } from './controller/shorUrl.controller.js';
 import { errorHandler } from './utls/errorHandler.js';
@@ -28,6 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
+app.use('/api/auth',auth_Routes)
 app.use('/api/create',shortUrlRoute)
 
 
