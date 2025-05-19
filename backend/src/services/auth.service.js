@@ -18,3 +18,17 @@ export const registerUser = async (name, email, password) => {
         
     }
 }
+
+
+export const loginUser = async (email, password) => {
+    try {
+        const user = await findUserByEmail(email);
+        if (!user || user.password !== password) {
+            throw new Error('Invalid credentials');
+        }
+        const token =await signToken({ id: user._id });
+        return  {token,user}
+    } catch (error) {
+        throw error;
+    }
+}
